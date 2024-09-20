@@ -3,27 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
-    <div id="contentCart" style="display: none;">
+    <div id="contentCart" style="display: none;">       
     <h2>Shopping Cart</h2>
     <input type="text" id="search-cart" placeholder="Search cart by product ID or name" oninput="filterCart()">
     <div id="cart"></div>
     <div id="cart-summary"></div>
     <button id="show-products">Regresar</button>
     </div>
- 
+    
 
     <main id="main"> 
     <div class="header">
-    <h1>Shoppe Fake</h1>
-    <input type="text" id="search-products" placeholder="Search products by name or category" oninput="filterProducts()">
+    
+    <h1> <span class="material-symbols-outlined">cyclone</span> Shoppe Fake</h1>
+    <input type="text" id="search-products" placeholder="Búsqueda" oninput="filterProducts()">
             <button id="showCart">Tu carrito 🛒</button>
+
+            <div class="filters">
+                <label for="price-sort">Ordenar por precio:</label>
+                <select id="price-sort" onchange="handlePriceSort(this.value)">
+                    <option value="">Seleccionar</option>
+                    <option value="asc">Ascendente</option>
+                    <option value="desc">Descendente</option>
+                </select>
+        
+                <label for="category-filter">Filtrar por categoría:</label>
+                <select id="category-filter" onchange="handleCategoryFilter()">
+                    <option value="">Todas</option>
+                </select>
+            </div>
        </div>
        
     <div id="product-list"></div>

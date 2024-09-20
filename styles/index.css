@@ -59,6 +59,7 @@ body {
 
 button {
     margin: 5px;
+    cursor: pointer;
 }
 
 .imageProd {
@@ -110,7 +111,18 @@ button {
 
 .header>h1{
     color: #ffffff;
-    margin-bottom: 2%;
+
         -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
+    margin-top: -2%;
+}
+
+.material-symbols-outlined {
+    font-size: 60px; /* Ajusta el tamaño */
+    color: #e8eaed;  /* Cambia el color a tu preferencia */
+   color: rgb(15, 78, 138);
+   margin-bottom: 2%;
+        -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(15, 78, 138);
+    
 }

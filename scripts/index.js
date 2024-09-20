@@ -12,6 +12,32 @@ const fetchProducts = async () => {
     }
 };
 
+// Fetch categories from the API
+async function fetchCategories() {
+    try {
+        const response = await fetch('https://fakestoreapi.com/products/categories');
+        const categories = await response.json();
+        populateCategoryFilter(categories);
+    } catch (error) {
+        console.error('Error al obtener categorias:', error);
+    }
+}
+
+// Populate category filter dropdown
+function populateCategoryFilter(categories) {
+    const categoryFilter = document.getElementById('category-filter');
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = capitalizeFirstLetter(category);
+        categoryFilter.appendChild(option);
+    });
+}
+
+// Capitalize first letter of a string
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 const displayProducts = (products) => {
     const productList = document.getElementById("product-list");
@@ -109,13 +135,13 @@ const addToCart = (productId) => {
         existingProduct.quantity++;
     } else {
         const product = allProducts.find(p => p.id === productId);
-        cart.push({ id: productId, title: product.title, price: product.price, quantity: 1 });
+        cart.push({ id: productId, title: product.title, price: product.price,image: product.image, quantity: 1 });
     }
     updateCart();
 };
 
 
-const updateCart = () => {
+const updateCart = (product) => {
     const cartDiv = document.getElementById("cart");
     cartDiv.innerHTML = ""; 
     let total = 0;
@@ -128,6 +154,12 @@ const updateCart = () => {
 
         const productTitle = document.createElement("h4");
         productTitle.textContent = `${item.title} (ID: ${item.id})`;
+
+      // Crear y añadir la imagen del producto
+      const productImage = document.createElement("img");
+        productImage.src = item.image;  // Aquí asegúrate de que esté usando 'item.image'
+        productImage.alt = item.title;
+        productImage.className = "imageProd";
 
         const productQuantity = document.createElement("p");
         productQuantity.textContent = `Quantity: ${item.quantity}`;
@@ -147,6 +179,7 @@ const updateCart = () => {
         decreaseButton.addEventListener('click', () => changeQuantity(item.id, 'decrease'));
 
         cartItemDiv.appendChild(productTitle);
+        cartItemDiv.appendChild(productImage);
         cartItemDiv.appendChild(productQuantity);
         cartItemDiv.appendChild(removeButton);
         cartItemDiv.appendChild(increaseButton);
@@ -155,8 +188,8 @@ const updateCart = () => {
         cartDiv.appendChild(cartItemDiv);
     });
 
-    const cart = [];
-let allProducts = [];
+ //   const cart = [];
+// let allProducts = [];
 
 const fetchProducts = async () => {
     try {
@@ -238,6 +271,13 @@ const displayProducts = (products) => {
     });
 };
 
+
+    // Actualizar el total en el resumen del carrito
+    const cartSummary = document.getElementById("cart-summary");
+    cartSummary.textContent = `Total: $${total.toFixed(2)}`;
+};
+
+
 // Intentando conseguir esta cosa pero no me sirve
 const showCartButton = document.getElementById("showCart");
 const showProductsButton = document.getElementById("show-products");
@@ -250,7 +290,7 @@ showCartButton.addEventListener("click", () => {
     productListDiv.style.display = "none";
     showCartButton.style.display = "none";
     showProductsButton.style.display = "block";
-    
+    updateCart();
     console.log("Funciona");
 });
 
@@ -259,12 +299,9 @@ showProductsButton.addEventListener("click", () => {
     productListDiv.style.display = "block";
     showCartButton.style.display = "block";
     showProductsButton.style.display = "none";
+    updateCart();
 });
 
-    // Actualizar el total en el resumen del carrito
-    const cartSummary = document.getElementById("cart-summary");
-    cartSummary.textContent = `Total: $${total.toFixed(2)}`;
-};
 
 // filtro del carrito
 const filterCart = () => {
@@ -347,7 +384,37 @@ const changeQuantity = (productId, action) => {
 };
 
 
+// Filter by category
+const filterByCategory = (category) => {
+    const filteredProducts = category ? 
+        allProducts.filter(product => product.category === category) : allProducts;
+    displayProducts(filteredProducts);
+};
+
+// Filter by price (ascending or descending)
+const filterByPrice = (order) => {
+    const sortedProducts = [...allProducts].sort((a, b) => {
+        return order === 'asc' ? a.price - b.price : b.price - a.price;
+    });
+    displayProducts(sortedProducts);
+};
+
+// Handle price sort
+function handlePriceSort(order) {
+    if (order) {
+        filterByPrice(order);
+    }
+}
+
+// Handle category filter
+function handleCategoryFilter() {
+    const selectedCategory = document.getElementById("category-filter").value;
+    filterByCategory(selectedCategory);
+}
+
+// Fetch initial data
 fetchProducts();
+fetchCategories();
 
 
 
