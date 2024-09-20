@@ -1,7 +1,6 @@
 const cart = [];
 let allProducts = [];
 
-// fetch all products
 const fetchProducts = async () => {
     try {
         const response = await fetch("https://fakestoreapi.com/products");
@@ -12,7 +11,6 @@ const fetchProducts = async () => {
     }
 };
 
-// Fetch categories from the API
 async function fetchCategories() {
     try {
         const response = await fetch('https://fakestoreapi.com/products/categories');
@@ -23,7 +21,7 @@ async function fetchCategories() {
     }
 }
 
-// Populate category filter dropdown
+
 function populateCategoryFilter(categories) {
     const categoryFilter = document.getElementById('category-filter');
     categories.forEach(category => {
@@ -34,7 +32,6 @@ function populateCategoryFilter(categories) {
     });
 }
 
-// Capitalize first letter of a string
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -71,12 +68,10 @@ const displayProducts = (products) => {
         const truncatedDescription = product.description.length > maxChars ? 
             product.description.substring(0, maxChars) + "..." : product.description;
 
-        // Create truncated paragraph
         const truncatedP = document.createElement("p");
         truncatedP.className = "truncated";
         truncatedP.textContent = truncatedDescription;
 
-        // Create full paragraph
         const fullP = document.createElement("p");
         fullP.className = "full";
         fullP.textContent = product.description;
@@ -157,7 +152,7 @@ const updateCart = (product) => {
 
       // Crear y añadir la imagen del producto
       const productImage = document.createElement("img");
-        productImage.src = item.image;  // Aquí asegúrate de que esté usando 'item.image'
+        productImage.src = item.image;  
         productImage.alt = item.title;
         productImage.className = "imageProd";
 
@@ -270,8 +265,6 @@ const displayProducts = (products) => {
         productList.appendChild(productDiv);
     });
 };
-
-
     // Actualizar el total en el resumen del carrito
     const cartSummary = document.getElementById("cart-summary");
     cartSummary.textContent = `Total: $${total.toFixed(2)}`;
@@ -284,7 +277,7 @@ const showProductsButton = document.getElementById("show-products");
 const cartDi = document.getElementById("contentCart");
 const productListDiv = document.getElementById("main");
 
-// La mugrosa funcionalidad que esta pendiente
+// La condenada funcionalidad que esta pendiente
 showCartButton.addEventListener("click", () => {
     cartDi.style.display = "block";
     productListDiv.style.display = "none";
@@ -384,14 +377,14 @@ const changeQuantity = (productId, action) => {
 };
 
 
-// Filter by category
+// Filtro categroia
 const filterByCategory = (category) => {
     const filteredProducts = category ? 
         allProducts.filter(product => product.category === category) : allProducts;
     displayProducts(filteredProducts);
 };
 
-// Filter by price (ascending or descending)
+// Filtro precio
 const filterByPrice = (order) => {
     const sortedProducts = [...allProducts].sort((a, b) => {
         return order === 'asc' ? a.price - b.price : b.price - a.price;
@@ -412,10 +405,9 @@ function handleCategoryFilter() {
     filterByCategory(selectedCategory);
 }
 
-// Fetch initial data
+// Fetch datas
 fetchProducts();
 fetchCategories();
 
 
 
-// ME FALTA TERMINAR DE IMPLEMENTAR EL SHOWCART Y SHOWPRODUCTS PARA MOSTRAR EL CARRITO Y REGRESAR A LOS PRODUCTOS
